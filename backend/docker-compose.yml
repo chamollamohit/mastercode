@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:latest
+    image: postgres:alpine3.22
     container_name: codemaster_db
     environment:
       - POSTGRES_DB=mastercode
@@ -9,3 +9,8 @@ services:
     ports:
       - "5435:5432"
     restart: unless-stopped
+    volumes:
+      - codemaster_dbdata:/var/lib/postgresql
+
+volumes:
+  codemaster_dbdata:
