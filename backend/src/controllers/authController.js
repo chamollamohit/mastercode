@@ -44,6 +44,7 @@ export const loginUser = async (req, res) => {
         return res.status(200).json({
             success: true,
             data: { id: user.id, name: user.name, role: user.role },
+            message: "User loged in successfully",
         });
     } catch (error) {
         console.error("Login error", error);
@@ -100,6 +101,7 @@ export const registerUser = async (req, res) => {
         return res.status(201).json({
             success: true,
             data: { id: user.id, name: user.name, role: user.role },
+            message: "User registered successfully",
         });
     } catch (error) {
         console.error("Registration error", error);

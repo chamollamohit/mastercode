@@ -43,7 +43,8 @@ export const authenticate = async (req, res, next) => {
 
 export const checkAdmin = async (req, res, next) => {
     try {
-        const { id, name, role, email } = req.user;
+        const { id, name, role, email } = await req.user;
+
         if (role !== "ADMIN") {
             return res
                 .status(403)

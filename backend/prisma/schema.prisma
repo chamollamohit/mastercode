@@ -39,7 +39,7 @@ model Problem {
   tags        String[]
   examples    Json
   constraints Json
-  hints       String?
+  hints       String[]
   editorial   String?
 
   testCases          Json
