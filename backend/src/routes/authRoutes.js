@@ -5,6 +5,7 @@ import {
     logoutUser,
     registerUser,
 } from "../controllers/authControllers.js";
+import { authenticate } from "../middlewares/authMiddleware.js";
 
 const router = Router();
 
@@ -14,6 +15,6 @@ router.post("/login", loginUser);
 
 router.post("/logout", logoutUser);
 
-router.post("/authUser", authUser);
+router.post("/authUser", authenticate, authUser);
 
 export default router;

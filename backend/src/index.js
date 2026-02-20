@@ -1,11 +1,9 @@
 import express from "express";
-import dotenv from "dotenv";
+import "dotenv/config";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 
 import authRoutes from "../src/routes/authRoutes.js";
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8080;
