@@ -40,3 +40,20 @@ export const authenticate = async (req, res, next) => {
             .json({ success: false, message: "Internal server error" });
     }
 };
+
+export const checkAdmin = async (req, res, next) => {
+    try {
+        const { id, name, role, email } = req.user;
+        if (role !== "ADMIN") {
+            return res
+                .status(403)
+                .json({ success: false, message: "User is not admin" });
+        }
+        next();
+    } catch (error) {
+        console.error("Error in Admin middleware", error);
+        return res
+            .status(500)
+            .json({ success: false, message: "Internal server error" });
+    }
+};

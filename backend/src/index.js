@@ -4,6 +4,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 
 import authRoutes from "../src/routes/authRoutes.js";
+import problemRoutes from "../src/routes/problemRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -21,6 +22,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/problem", problemRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);
