@@ -1,0 +1,11 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: codemaster_db
+    environment:
+      - POSTGRES_DB=mastercode
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin123
+    ports:
+      - "5435:5432"
+    restart: unless-stopped
