@@ -25,6 +25,7 @@ app.get("/health", (req, res) => {
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/problem", problemRoutes);
 app.use("/api/v1/execute", executeCodeRoutes);
+app.use("/api/v1/submissions", submissionRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);
