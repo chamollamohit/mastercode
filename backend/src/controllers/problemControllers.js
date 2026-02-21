@@ -66,7 +66,7 @@ export const createProblem = async (req, res) => {
 
             for (let i = 0; i < results.length; i++) {
                 const result = results[i];
-                if (result.status_id !== 3) {
+                if (result.status.id !== 3) {
                     return res.status(400).json({
                         success: false,
                         message: `Validation failed for ${language} on input: ${submissions[i].stdin}`,
@@ -110,7 +110,7 @@ export const getAllProblems = async (req, res) => {
     try {
         const problems = await db.problem.findMany();
 
-        if (condition.length === 0) {
+        if (problems.length === 0) {
             return res
                 .status(200)
                 .json({ success: false, message: "No problems to show" });
@@ -131,7 +131,7 @@ export const getAllProblems = async (req, res) => {
 
 export const getProblemById = async (req, res) => {
     try {
-        const { id } = req.param;
+        const { id } = req.params;
 
         const problem = await db.problem.findUnique({
             where: {
@@ -161,13 +161,13 @@ export const getProblemById = async (req, res) => {
 export const updateProblem = async (req, res) => {
     const problemData = req.body;
     try {
-        const { id } = req.param;
+        const { id } = req.params;
 
         const updatedProblem = await db.problem.update({
             where: {
                 id,
             },
-            data: { problemData },
+            data: { ...problemData },
         });
 
         if (!updatedProblem) {
@@ -191,7 +191,7 @@ export const updateProblem = async (req, res) => {
 
 export const deleteProblem = async (req, res) => {
     try {
-        const { id } = req.param;
+        const { id } = req.params;
 
         const deletedProblem = await db.problem.delete({
             where: {

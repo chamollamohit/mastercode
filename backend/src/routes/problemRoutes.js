@@ -16,8 +16,8 @@ router.get("/get-all-problem", authenticate, getAllProblems);
 
 router.get("/get-problem/:id", authenticate, getProblemById);
 
-router.get("/update-problem/:id", authenticate, checkAdmin, updateProblem);
+router.post("/update-problem/:id", authenticate, checkAdmin, updateProblem);
 
-router.get("/delete-problem/:id", authenticate, checkAdmin, deleteProblem);
+router.post("/delete-problem/:id", authenticate, checkAdmin, deleteProblem);
 
 export default router;

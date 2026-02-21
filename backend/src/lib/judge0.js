@@ -15,8 +15,6 @@ export const submitBatch = async (submissions) => {
         { submissions },
         {
             headers: {
-                "x-rapidapi-key": process.env.RAPIDAPI_KEY,
-                "x-rapidapi-host": process.env.RAPIDAPI_HOST,
                 "Content-Type": "application/json",
             },
         },
@@ -26,7 +24,7 @@ export const submitBatch = async (submissions) => {
 };
 
 export const sleep = (time) =>
-    new Promise((resolve) => setTimeout(resolve(), time));
+    new Promise((resolve) => setTimeout(resolve, time));
 
 export const pollBatchResults = async (tokens) => {
     while (true) {
@@ -37,15 +35,11 @@ export const pollBatchResults = async (tokens) => {
                     tokens: tokens.join(","),
                     base64_encoded: false,
                 },
-                headers: {
-                    "x-rapidapi-key": process.env.RAPIDAPI_KEY,
-                    "x-rapidapi-host": process.env.RAPIDAPI_HOST,
-                },
             },
         );
         const results = data.submissions;
 
-        const isAllDone = results.every((result) => result.status_id >= 3);
+        const isAllDone = results.every((result) => result.status.id >= 3);
 
         if (isAllDone) return results;
 
