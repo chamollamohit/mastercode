@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 
 import authRoutes from "../src/routes/authRoutes.js";
 import problemRoutes from "../src/routes/problemRoutes.js";
+import executeCodeRoutes from "../src/routes/executeCodeRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -23,6 +24,7 @@ app.get("/health", (req, res) => {
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/problem", problemRoutes);
+app.use("/api/v1/execute", executeCodeRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);

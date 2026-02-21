@@ -58,9 +58,9 @@ export const createProblem = async (req, res) => {
                 expected_output: output,
             }));
 
-            const submissionsResults = await submitBatch(submissions);
+            const submissionsTokens = await submitBatch(submissions);
 
-            const tokens = submissionsResults.map((t) => t.token);
+            const tokens = submissionsTokens.map((t) => t.token);
 
             const results = await pollBatchResults(tokens);
 

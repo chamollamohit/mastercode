@@ -6,7 +6,7 @@ import {
     getAllProblems,
     getProblemById,
     updateProblem,
-} from "../controllers/problemControllers.js";
+} from "../controllers/problemController.js";
 
 const router = Router();
 
