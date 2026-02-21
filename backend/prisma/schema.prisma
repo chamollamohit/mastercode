@@ -18,6 +18,11 @@ enum Difficulty {
   HARD
 }
 
+enum Status {
+  ACCEPTED
+  REJECTED
+}
+
 model User {
   id       String   @id @default(cuid())
   name     String
@@ -25,9 +30,12 @@ model User {
   role     UserRole @default(USER)
   password String
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  problems  Problem[]
+  problems       Problem[]
+  submissions    Submission[]
+  solvedProblems ProblemSolved[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Problem {
@@ -45,10 +53,61 @@ model Problem {
   testCases          Json
   codeSnippets       Json
   referenceSolutions Json
+  userId             String
+
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  submissions Submission[]
+  solvedBy    ProblemSolved[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+model Submission {
+  id             String   @id @default(cuid())
+  userId         String
+  problemId      String
+  sourceCode     Json
+  language       String
+  stdin          String?
+  stdout         String?
+  stderr         String?
+  compilerOutput String?
+  status         Status
+  memory         String?
+  createdAt      DateTime @default(now())
+
+  testCases TestCaseResult[]
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+}
+
+model TestCaseResult {
+  id            String   @id @default(cuid())
+  submissionId  String
+  testCase      Int
+  passed        Boolean
+  stdout        String?
+  expected      String?
+  stderr        String?
+  compileOutput String?
+  status        Status
+  memory        String?
+  time          String?
+  createdAt     DateTime @default(now())
+
+  submission Submission @relation(fields: [id], references: [id], onDelete: Cascade)
+}
+
+model ProblemSolved {
+  id        String   @id @default(cuid())
+  userId    String
+  problemId String
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
 }
