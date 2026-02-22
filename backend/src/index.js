@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import authRoutes from "../src/routes/authRoutes.js";
 import problemRoutes from "../src/routes/problemRoutes.js";
@@ -12,6 +13,12 @@ import playlistRoutes from "../src/routes/playlistRoute.js";
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+app.use(
+    cors({
+        origin: "http://localhost:3000",
+        credentials: true,
+    }),
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));

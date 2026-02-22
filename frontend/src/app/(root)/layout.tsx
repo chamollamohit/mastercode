@@ -1,10 +1,55 @@
+import type { Metadata } from "next";
 import React from "react";
+import Navbar from "@/modules/home/components/Navbar";
+
+export const metadata: Metadata = {
+    description:
+        "Join 10,000+ developers sharpening their skills with real-time feedback, curated problems, and an interactive coding environment.",
+    keywords: [
+        "coding",
+        "programming",
+        "algorithms",
+        "data structures",
+        "tech interview",
+        "software engineering",
+    ],
+    authors: [{ name: "Mohit Chamolla" }],
+    openGraph: {
+        title: "MasterCode | Elevate Your Coding Skills",
+        description:
+            "The ultimate platform for mastering algorithms and data structures.",
+        url: "https://mastercode.com",
+        siteName: "MasterCode",
+        locale: "en_US",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "MasterCode",
+        description:
+            "Prepare for your next big engineering role with MasterCode.",
+    },
+    icons: {
+        icon: "/favicon.ico",
+    },
+};
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     return (
-        <main className="flex flex-col min-h-screen max-h-screen">
-            <div className="flex-1 flex flex-col px-4 pb-4">
-                <div className="absolute inset-0 -z-10 h-full w-full bg-background dark:bg-[radial-gradient(#393e4a_1px,transparent_1px)] dark:bg-size-[16px_16px] bg-[radial-gradient(#dadde2_1px,transparent_1px)] bg-size-[16px_16px]" />
+        <main className="flex flex-col min-h-screen">
+            <Navbar />
+            <div className="flex-1 flex flex-col px-4 pb-4 relative">
+                {/* Visible Dot Background with improved contrast for Light Mode */}
+                <div
+                    className="absolute inset-0 -z-10 h-full w-full bg-background 
+          /* Light mode: slate-300 dots | Dark mode: slate-800 dots */
+          bg-[radial-gradient(#cbd5e1_1.5px,transparent_1.5px)] 
+          dark:bg-[radial-gradient(#1e293b_1.5px,transparent_1.5px)] 
+          [background-size:24px_24px] 
+          /* Subtle fade at the bottom to keep focus on content */
+          [mask-image:radial-gradient(ellipse_80%_80%_at_50%_0%,#000_70%,transparent_100%)]"
+                />
+
                 {children}
             </div>
         </main>
