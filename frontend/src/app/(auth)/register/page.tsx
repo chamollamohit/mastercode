@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { Code, Eye, EyeOff, Lock, Mail, Loader2 } from "lucide-react";
+import { Code, Eye, EyeOff, Lock, Mail, User, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -18,41 +18,43 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CodeBackground from "@/modules/auth/components/AuthImagePattern";
-import { login } from "@/modules/auth/actions";
+import { register } from "@/modules/auth/actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-const loginSchema = z.object({
+const registerSchema = z.object({
     email: z.email({ error: "Enter a valid email address" }),
+    name: z.string().min(3, { error: "name must be at least 3 characters" }),
     password: z
         .string()
         .min(6, { message: "Password must be at least 6 characters" }),
 });
 
-type LoginForm = z.infer<typeof loginSchema>;
+type RegisterForm = z.infer<typeof registerSchema>;
 
-const LoginPage = () => {
+const RegisterPage = () => {
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
 
-    const form = useForm<LoginForm>({
-        resolver: zodResolver(loginSchema),
+    const form = useForm<RegisterForm>({
+        resolver: zodResolver(registerSchema),
         defaultValues: {
             email: "",
+            name: "",
             password: "",
         },
     });
 
-    const onSubmit = async (data: LoginForm) => {
-        const result = await login(data);
+    const onSubmit = async (data: RegisterForm) => {
+        const result = await register(data);
 
         if (!result.success) {
-            return toast.error(result.message);
+            toast.error(result.message);
         }
+
         toast.success(result.message);
         router.push("/");
     };
-
     return (
         <div className="min-h-screen grid lg:grid-cols-2 bg-background font-mont">
             <div className="flex flex-col justify-center items-center p-8 sm:p-12">
@@ -63,10 +65,10 @@ const LoginPage = () => {
                                 <Code className="w-6 h-6 text-primary" />
                             </div>
                             <h1 className="text-3xl font-extrabold tracking-tight mt-4 font-man">
-                                Welcome Back
+                                Create Account
                             </h1>
-                            <p className="text-muted-foreground text-sm sm:text-base">
-                                Sign in to your account to continue
+                            <p className="text-muted-foreground text-sm">
+                                Get started with your coding journey today
                             </p>
                         </div>
                     </div>
@@ -74,7 +76,30 @@ const LoginPage = () => {
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-6">
+                            className="space-y-5">
+                            <FormField
+                                control={form.control}
+                                name="name"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="font-man font-bold text-sm tracking-wider">
+                                            Full Name
+                                        </FormLabel>
+                                        <FormControl>
+                                            <div className="relative">
+                                                <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                                                <Input
+                                                    placeholder="John Doe"
+                                                    className="pl-10 font-mont"
+                                                    {...field}
+                                                />
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage className="font-man text-xs" />
+                                    </FormItem>
+                                )}
+                            />
+
                             <FormField
                                 control={form.control}
                                 name="email"
@@ -119,22 +144,20 @@ const LoginPage = () => {
                                                     placeholder="••••••••"
                                                     {...field}
                                                 />
-                                                <Button
+                                                <button
                                                     type="button"
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                                    className="absolute right-3 top-2.5 text-muted-foreground hover:text-foreground transition-colors"
                                                     onClick={() =>
                                                         setShowPassword(
                                                             !showPassword,
                                                         )
                                                     }>
                                                     {showPassword ? (
-                                                        <EyeOff className="h-4 w-4 text-muted-foreground" />
+                                                        <EyeOff className="h-4 w-4" />
                                                     ) : (
-                                                        <Eye className="h-4 w-4 text-muted-foreground" />
+                                                        <Eye className="h-4 w-4" />
                                                     )}
-                                                </Button>
+                                                </button>
                                             </div>
                                         </FormControl>
                                         <FormMessage className="font-man text-xs" />
@@ -144,15 +167,15 @@ const LoginPage = () => {
 
                             <Button
                                 type="submit"
-                                className="w-full font-man font-extrabold text-base shadow-lg shadow-primary/20 transition-transform active:scale-[0.98]"
+                                className="w-full font-man font-extrabold text-base shadow-lg shadow-primary/20 transition-all active:scale-[0.98] py-6"
                                 disabled={form.formState.isSubmitting}>
                                 {form.formState.isSubmitting ? (
                                     <>
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                        Authenticating...
+                                        Creating Account...
                                     </>
                                 ) : (
-                                    "Sign in"
+                                    "Create Account"
                                 )}
                             </Button>
                         </form>
@@ -160,25 +183,25 @@ const LoginPage = () => {
 
                     <div className="text-center text-sm">
                         <span className="text-muted-foreground">
-                            Don&apos;t have an account?{" "}
+                            Already have an account?{" "}
                         </span>
                         <Link
-                            href="/register"
+                            href="/login"
                             className="text-primary font-bold font-man hover:underline underline-offset-4">
-                            Create account
+                            Sign in
                         </Link>
                     </div>
                 </div>
             </div>
 
             <CodeBackground
-                title={"Unlock your potential"}
+                title={"Join the community"}
                 subtitle={
-                    "Join thousands of developers solving problems and building the future."
+                    "Build your profile, compete in contests, and level up your software engineering skills."
                 }
             />
         </div>
     );
 };
 
-export default LoginPage;
+export default RegisterPage;

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-    title: "Auth",
+    title: "Authentication",
     description:
         "Sign in or create an account to start solving coding challenges and master your algorithms.",
     openGraph: {

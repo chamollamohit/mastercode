@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Manrope, Montserrat } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/provider/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const manRope = Manrope({
     subsets: ["latin"],
@@ -60,6 +61,7 @@ export default function RootLayout({
                     disableTransitionOnChange>
                     {children}
                 </ThemeProvider>
+                <Toaster position="top-center" />
             </body>
         </html>
     );

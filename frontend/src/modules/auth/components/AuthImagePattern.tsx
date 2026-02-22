@@ -90,7 +90,7 @@ function reverseList(head) {
                             <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                             <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
                         </div>
-                        <div className="text-[10px] font-mono uppercase tracking-widest opacity-50 flex items-center gap-2">
+                        <div className="text-[10px] font-mono tracking-widest opacity-50 flex items-center gap-2">
                             <FileCode size={12} />
                             solution.js
                         </div>
