@@ -1,23 +1,45 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Manrope, Montserrat } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/provider/theme-provider";
 
 const manRope = Manrope({
-    variable: "--font-manrope",
     subsets: ["latin"],
     weight: ["200", "300", "400", "500", "600", "700", "800"],
+    variable: "--font-manrope",
+    display: "swap",
 });
 
 const montSerrat = Montserrat({
-    variable: "--font-montserrat",
-    weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
     subsets: ["latin"],
+    weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+    variable: "--font-montserrat",
+    display: "swap",
 });
 
 export const metadata: Metadata = {
-    title: "Master Code",
-    description: "Your Own Coding Buddy",
+    title: {
+        default: "Master Code | Your Coding Buddy",
+        template: "%s | Master Code",
+    },
+    description:
+        "Master algorithms, solve coding challenges, and track your progress with Master Code-the ultimate platform for developers.",
+    keywords: [
+        "coding",
+        "algorithms",
+        "leetcode clone",
+        "programming",
+        "master code",
+    ],
+    authors: [{ name: "Mohit" }],
+    creator: "Mohit",
+};
+
+export const viewport: Viewport = {
+    themeColor: [
+        { media: "(prefers-color-scheme: light)", color: "white" },
+        { media: "(prefers-color-scheme: dark)", color: "black" },
+    ],
 };
 
 export default function RootLayout({
@@ -26,9 +48,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html
+            lang="en"
+            suppressHydrationWarning>
             <body
-                className={`${manRope.variable} ${montSerrat.variable} antialiased`}>
+                className={`${manRope.variable} ${montSerrat.variable} font-man antialiased min-h-screen bg-background`}>
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"
