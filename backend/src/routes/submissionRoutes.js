@@ -1,5 +1,10 @@
 import { Router } from "express";
-import { authenticate } from "../middlewares/authMiddleware";
+import { authenticate } from "../middlewares/authMiddleware.js";
+import {
+    getAllSubmissions,
+    getSubmissionsCountForProblem,
+    getSubmissionsForProblem,
+} from "../controllers/submissionController.js";
 
 const router = Router();
 
@@ -16,3 +21,5 @@ router.get(
     authenticate,
     getSubmissionsCountForProblem,
 );
+
+export default router;

@@ -4,7 +4,7 @@ export const getAllSubmissions = async (req, res) => {
     try {
         const userId = req.user.id;
 
-        const submissions = db.submission.findMany({
+        const submissions = await db.submission.findMany({
             where: { userId },
         });
 
@@ -24,9 +24,9 @@ export const getAllSubmissions = async (req, res) => {
 export const getSubmissionsForProblem = async (req, res) => {
     try {
         const userId = req.user.id;
-        const problemId = req.params;
+        const { problemId } = req.params;
 
-        const submissions = db.submission.findMany({
+        const submissions = await db.submission.findMany({
             where: { userId, problemId },
         });
 
@@ -45,9 +45,9 @@ export const getSubmissionsForProblem = async (req, res) => {
 
 export const getSubmissionsCountForProblem = async (req, res) => {
     try {
-        const problemId = req.params;
+        const { problemId } = req.params;
 
-        const submissions = db.submission.count({
+        const submissions = await db.submission.count({
             where: { problemId },
         });
 

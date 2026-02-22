@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser";
 import authRoutes from "../src/routes/authRoutes.js";
 import problemRoutes from "../src/routes/problemRoutes.js";
 import executeCodeRoutes from "../src/routes/executeCodeRoutes.js";
+import submissionRoutes from "../src/routes/submissionRoutes.js";
+import playlistRoutes from "../src/routes/playlistRoute.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -26,6 +28,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/problem", problemRoutes);
 app.use("/api/v1/execute", executeCodeRoutes);
 app.use("/api/v1/submissions", submissionRoutes);
+app.use("/api/v1/playlist", playlistRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);
