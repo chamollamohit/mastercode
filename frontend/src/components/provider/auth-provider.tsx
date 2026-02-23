@@ -1,9 +1,9 @@
 "use client";
 
-import { axiosInstance } from "@/lib/axios";
+import { api } from "@/lib/axios-client";
 import { createContext, useContext, useEffect, useState } from "react";
 
-interface User {
+export interface User {
     id: string;
     name: string;
     role: string;
@@ -27,7 +27,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const checkAuth = async () => {
         try {
-            const res = await axiosInstance.get("/auth/authUser");
+            const res = await api.get("/auth/authUser");
             setUser(res.data.data);
         } catch (error) {
             setUser(null);

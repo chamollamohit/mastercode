@@ -39,15 +39,14 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
         <main className="flex flex-col min-h-screen">
             <Navbar />
             <div className="flex-1 flex flex-col px-4 pb-4 relative">
-                {/* Visible Dot Background with improved contrast for Light Mode */}
                 <div
                     className="absolute inset-0 -z-10 h-full w-full bg-background 
           /* Light mode: slate-300 dots | Dark mode: slate-800 dots */
           bg-[radial-gradient(#cbd5e1_1.5px,transparent_1.5px)] 
           dark:bg-[radial-gradient(#1e293b_1.5px,transparent_1.5px)] 
-          [background-size:24px_24px] 
+          bg-size-[24px_24px] 
           /* Subtle fade at the bottom to keep focus on content */
-          [mask-image:radial-gradient(ellipse_80%_80%_at_50%_0%,#000_70%,transparent_100%)]"
+          mask-[radial-gradient(ellipse_80%_80%_at_50%_0%,#000_70%,transparent_100%)]"
                 />
 
                 {children}

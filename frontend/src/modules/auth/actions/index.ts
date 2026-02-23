@@ -1,13 +1,13 @@
 "use server"
 
-import { axiosInstance } from "@/lib/axios"
+import { api } from "@/lib/axios-client"
 import axios from "axios";
 import { cookies } from "next/headers";
 
 export const login = async (data: { email: string, password: string }) => {
 
     try {
-        const response = await axiosInstance.post('/auth/login', data)
+        const response = await api.post('/auth/login', data)
 
         const setCookieHeader = response.headers['set-cookie'];
 
@@ -44,7 +44,7 @@ export const login = async (data: { email: string, password: string }) => {
 
 export const register = async (data: { email: string, name: string, password: string }) => {
     try {
-        const response = await axiosInstance.post('/auth/register', data)
+        const response = await api.post('/auth/register', data)
         const setCookieHeader = response.headers['set-cookie'];
 
         if (setCookieHeader && setCookieHeader.length > 0) {
