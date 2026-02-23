@@ -25,7 +25,6 @@ const Navbar = () => {
         await checkAuth();
         router.push("/");
     };
-    console.log(isCheckingAuth, user);
 
     return (
         <header className="border-b bg-background/95 backdrop-blur sticky top-0 z-50 font-mont">

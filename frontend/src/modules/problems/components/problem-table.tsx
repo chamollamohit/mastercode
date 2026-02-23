@@ -12,6 +12,7 @@ import {
     ChevronRight,
     Hash,
     Terminal,
+    Plus,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -33,6 +34,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { useAuth, User } from "@/components/provider/auth-provider";
+import CreatePlaylistModal from "@/modules/playlist/components/create-playlist";
 
 interface Problem {
     id: string;
@@ -47,6 +49,7 @@ const ProblemsTable = ({ problems }: { problems: Problem[] }) => {
     const [search, setSearch] = useState("");
     const [difficulty, setDifficulty] = useState("ALL");
     const [currentPage, setCurrentPage] = useState(1);
+    const [isPlaylistModalOpen, setIsPlaylistModalOpen] = useState(false);
     const problemPerPage = 8;
 
     const { filteredProblems, totalPagesCount } = useMemo(() => {
@@ -79,7 +82,12 @@ const ProblemsTable = ({ problems }: { problems: Problem[] }) => {
                 return "bg-slate-500/10 text-slate-500 border-slate-500/20";
         }
     };
-
+    const handleCreatePlaylist = (data: {
+        name: string;
+        description: string;
+    }) => {
+        console.log(data);
+    };
     return (
         <div className="w-full max-w-full mx-auto space-y-8 p-6 font-mont relative">
             <div className="absolute -top-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -z-20" />
@@ -121,8 +129,13 @@ const ProblemsTable = ({ problems }: { problems: Problem[] }) => {
                         </SelectContent>
                     </Select>
                 </div>
+                <Button
+                    className="gap-2"
+                    onClick={() => setIsPlaylistModalOpen(true)}>
+                    <Plus className="h-4 w-4" />
+                    Create Playlist
+                </Button>
             </div>
-
             <div className="relative group">
                 <div className="rounded-[2rem] border border-border/40 bg-card/20 backdrop-blur-xl overflow-hidden shadow-2xl">
                     <Table>
@@ -261,6 +274,11 @@ const ProblemsTable = ({ problems }: { problems: Problem[] }) => {
                     </Button>
                 </div>
             </div>
+            <CreatePlaylistModal
+                isOpen={isPlaylistModalOpen}
+                onClose={() => setIsPlaylistModalOpen(false)}
+                onSubmit={handleCreatePlaylist}
+            />
         </div>
     );
 };
