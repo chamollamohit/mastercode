@@ -21,6 +21,7 @@ import CodeBackground from "@/modules/auth/components/AuthImagePattern";
 import { login } from "@/modules/auth/actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/provider/auth-provider";
 
 const loginSchema = z.object({
     email: z.email({ error: "Enter a valid email address" }),
@@ -34,7 +35,7 @@ type LoginForm = z.infer<typeof loginSchema>;
 const LoginPage = () => {
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
-
+    const { checkAuth } = useAuth();
     const form = useForm<LoginForm>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -50,6 +51,7 @@ const LoginPage = () => {
             return toast.error(result.message);
         }
         toast.success(result.message);
+        await checkAuth();
         router.push("/");
     };
 

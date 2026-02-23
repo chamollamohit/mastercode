@@ -21,6 +21,7 @@ import CodeBackground from "@/modules/auth/components/AuthImagePattern";
 import { register } from "@/modules/auth/actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/provider/auth-provider";
 
 const registerSchema = z.object({
     email: z.email({ error: "Enter a valid email address" }),
@@ -35,7 +36,7 @@ type RegisterForm = z.infer<typeof registerSchema>;
 const RegisterPage = () => {
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
-
+    const { checkAuth } = useAuth();
     const form = useForm<RegisterForm>({
         resolver: zodResolver(registerSchema),
         defaultValues: {
@@ -53,6 +54,7 @@ const RegisterPage = () => {
         }
 
         toast.success(result.message);
+        await checkAuth();
         router.push("/");
     };
     return (

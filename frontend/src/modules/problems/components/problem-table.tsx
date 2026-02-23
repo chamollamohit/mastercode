@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import {
     Bookmark,
@@ -47,29 +47,25 @@ const ProblemsTable = ({ problems }: { problems: Problem[] }) => {
     const [search, setSearch] = useState("");
     const [difficulty, setDifficulty] = useState("ALL");
     const [currentPage, setCurrentPage] = useState(1);
+    const problemPerPage = 8;
 
-    const filteredProblems = useMemo(() => {
-        if (!problems) return [];
+    const { filteredProblems, totalPagesCount } = useMemo(() => {
+        const filtered = problems.filter((p) => {
+            const matchDiff =
+                difficulty === "ALL" || p.difficulty === difficulty;
+            const matchSearch = p.title
+                .toLowerCase()
+                .includes(search.toLowerCase());
+            return matchDiff && matchSearch;
+        });
 
-        if (search.trim())
-            return problems.filter(
-                (problem) =>
-                    (difficulty === "ALL"
-                        ? true
-                        : problem.difficulty == difficulty) &&
-                    problem.title
-                        .toLowerCase()
-                        .includes(search.trim().toLowerCase()),
-            );
+        const start = (currentPage - 1) * problemPerPage;
 
-        if (difficulty === "ALL") return problems;
-
-        return problems.filter((problem) => problem.difficulty == difficulty);
-    }, [difficulty, problems, search]);
-
-    const problemPerPage = 5;
-    const totalPage = Math.ceil(filteredProblems.length / problemPerPage);
-    console.log(currentPage);
+        return {
+            filteredProblems: filtered.slice(start, start + problemPerPage),
+            totalPagesCount: Math.ceil(filtered.length / problemPerPage),
+        };
+    }, [difficulty, problems, search, problemPerPage, currentPage]);
 
     const getDifficultyStyles = (diff: string) => {
         switch (diff.toUpperCase()) {
@@ -231,9 +227,9 @@ const ProblemsTable = ({ problems }: { problems: Problem[] }) => {
                 <div className="text-[10px] font-man font-bold uppercase tracking-widest text-muted-foreground/60">
                     Showing{" "}
                     <span className="text-foreground">
-                        {currentPage} - {totalPage}
+                        {currentPage} - {totalPagesCount}
                     </span>{" "}
-                    of {problems?.length} Results
+                    of {filteredProblems?.length} Results
                 </div>
                 <div className="flex items-center gap-2">
                     <Button
@@ -257,7 +253,7 @@ const ProblemsTable = ({ problems }: { problems: Problem[] }) => {
                         size="icon"
                         onClick={() =>
                             setCurrentPage((prev) =>
-                                prev < totalPage ? prev + 1 : prev,
+                                prev < totalPagesCount ? prev + 1 : prev,
                             )
                         }
                         className="rounded-full hover:bg-primary/10">

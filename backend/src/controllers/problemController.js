@@ -117,7 +117,7 @@ export const getAllProblems = async (req, res) => {
         if (problems.length === 0) {
             return res
                 .status(200)
-                .json({ success: false, message: "No problems to show" });
+                .json({ success: true, message: "No problems to show" });
         }
 
         return res.status(200).json({

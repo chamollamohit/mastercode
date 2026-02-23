@@ -14,9 +14,18 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { api } from "@/lib/axios-client";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
-    const { user, isCheckingAuth } = useAuth();
+    const router = useRouter();
+    const { user, isCheckingAuth, checkAuth } = useAuth();
+    const onLogout = async () => {
+        await api.post("/auth/logout");
+        await checkAuth();
+        router.push("/");
+    };
+    console.log(isCheckingAuth, user);
 
     return (
         <header className="border-b bg-background/95 backdrop-blur sticky top-0 z-50 font-mont">
@@ -81,7 +90,9 @@ const Navbar = () => {
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem className="text-destructive focus:bg-destructive/10 cursor-pointer">
+                                <DropdownMenuItem
+                                    className="text-destructive focus:bg-destructive/10 cursor-pointer"
+                                    onClick={onLogout}>
                                     <LogOut className="mr-2 h-4 w-4" />
                                     <span>Log out</span>
                                 </DropdownMenuItem>
