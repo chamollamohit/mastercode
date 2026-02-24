@@ -25,7 +25,7 @@ const ProblemPage = async () => {
     }
 
     return (
-        <div className="container mx-auto py-20">
+        <div className="container mx-auto py-15">
             <ProblemsTable problems={problems} />
         </div>
     );

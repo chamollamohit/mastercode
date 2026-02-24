@@ -145,11 +145,8 @@ const ProblemsTable = ({ problems, mode = "default" }: ProblemTableProps) => {
     };
 
     return (
-        <div className="w-full max-w-full mx-auto space-y-8 p-6 font-mont relative">
-            <div className="absolute -top-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -z-20" />
-            <div className="absolute top-1/2 -right-24 w-72 h-72 bg-indigo-500/5 rounded-full blur-[100px] -z-20" />
-
-            <div className="flex flex-col md:flex-row justify-between items-end gap-6">
+        <div className="w-full max-w-full mx-auto overflow-x-hidden space-y-8 p-6 font-mont relative">
+            <div className="flex flex-col md:flex-row justify-between md:items-center gap-6">
                 {mode === "default" ? (
                     <div className="space-y-2">
                         <div className="flex items-center gap-2 text-primary font-man font-bold text-xs uppercase tracking-[0.2em]">
@@ -164,29 +161,31 @@ const ProblemsTable = ({ problems, mode = "default" }: ProblemTableProps) => {
                 ) : null}
 
                 <div className="flex items-center gap-3 bg-card/30 backdrop-blur-md p-2 rounded-2xl border border-border/40 shadow-sm">
-                    <div className="relative w-64">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                            placeholder="Search by title..."
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            className="pl-9 bg-transparent border-none focus-visible:ring-0 text-sm"
-                        />
+                    <div className="flex flex-1 items-center gap-3 bg-card/30 backdrop-blur-md p-1 rounded-2xl ">
+                        <div className="relative flex-1 min-w-0">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input
+                                placeholder="Search by title..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="pl-9 bg-transparent border-none focus-visible:ring-0 text-sm w-full"
+                            />
+                        </div>
+                        <div className="h-8 w-px bg-border/40 mx-1 shrink-0" />
+                        <Select
+                            value={difficulty}
+                            onValueChange={setDifficulty}>
+                            <SelectTrigger className="w-32 border-none bg-transparent focus:ring-0 font-man font-bold text-xs uppercase shrink-0">
+                                <SelectValue placeholder="Level" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="ALL">All Levels</SelectItem>
+                                <SelectItem value="EASY">Easy</SelectItem>
+                                <SelectItem value="MEDIUM">Medium</SelectItem>
+                                <SelectItem value="HARD">Hard</SelectItem>
+                            </SelectContent>
+                        </Select>
                     </div>
-                    <div className="h-8 w-px bg-border/40 mx-1" />
-                    <Select
-                        value={difficulty}
-                        onValueChange={setDifficulty}>
-                        <SelectTrigger className="w-32.5 border-none bg-transparent focus:ring-0 font-man font-bold text-xs uppercase">
-                            <SelectValue placeholder="Level" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="ALL">All Levels</SelectItem>
-                            <SelectItem value="EASY">Easy</SelectItem>
-                            <SelectItem value="MEDIUM">Medium</SelectItem>
-                            <SelectItem value="HARD">Hard</SelectItem>
-                        </SelectContent>
-                    </Select>
                 </div>
                 {mode === "default" ? (
                     <Button
@@ -198,7 +197,7 @@ const ProblemsTable = ({ problems, mode = "default" }: ProblemTableProps) => {
                 ) : null}
             </div>
             <div className="relative group">
-                <div className="rounded-[2rem] border border-border/40 bg-card/20 backdrop-blur-xl overflow-hidden shadow-2xl">
+                <div className="rounded-[2rem] border border-border bg-card/20 backdrop-blur-xl overflow-x-auto shadow-xl">
                     <Table>
                         <TableHeader className="bg-muted/30">
                             <TableRow className="hover:bg-transparent border-border/40">
@@ -214,7 +213,7 @@ const ProblemsTable = ({ problems, mode = "default" }: ProblemTableProps) => {
                                 <TableHead className="w-37.5 font-man font-bold uppercase text-[10px] tracking-widest">
                                     Difficulty
                                 </TableHead>
-                                <TableHead className="w-25 text-right px-8 font-man font-bold uppercase text-[10px] tracking-widest">
+                                <TableHead className="w-25 text-center px-8 font-man font-bold uppercase text-[10px] tracking-widest">
                                     Action
                                 </TableHead>
                             </TableRow>
@@ -224,7 +223,11 @@ const ProblemsTable = ({ problems, mode = "default" }: ProblemTableProps) => {
                                 filteredProblems?.map((problem, index) => (
                                     <TableRow
                                         key={problem.id}
-                                        className="group border-border/20 hover:bg-linear-to-r hover:from-primary/3 hover:to-transparent transition-all duration-300">
+                                        className={`group border-border/20 hover:bg-linear-to-r hover:from-primary/3 hover:to-transparent transition-all duration-300 ${
+                                            deletingId === problem.id
+                                                ? "opacity-50 grayscale pointer-events-none"
+                                                : ""
+                                        }`}>
                                         <TableCell className="text-center">
                                             {problem.solvedBy?.some(
                                                 (u) => u.userId === user?.id,
@@ -274,7 +277,7 @@ const ProblemsTable = ({ problems, mode = "default" }: ProblemTableProps) => {
                                         </TableCell>
 
                                         <TableCell className="text-right px-8">
-                                            <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
+                                            <div className="flex justify-end gap-2 md:opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
                                                 {user?.role === "ADMIN" && (
                                                     <Button
                                                         variant="ghost"
@@ -296,7 +299,7 @@ const ProblemsTable = ({ problems, mode = "default" }: ProblemTableProps) => {
                                                             );
                                                         }}
                                                         className="h-8 w-8 text-primary hover:bg-primary/10">
-                                                        <Bookmark className="h-4 w-4 bg-pr text-black" />
+                                                        <Bookmark className="h-4 w-4 bg-pr" />
                                                     </Button>
                                                 ) : (
                                                     <Button
@@ -316,7 +319,7 @@ const ProblemsTable = ({ problems, mode = "default" }: ProblemTableProps) => {
                                                         problem.id ? (
                                                             <Loader2 className="h-4 w-4 bg-pr text-black animate-spin" />
                                                         ) : (
-                                                            <BookmarkCheck className="h-4 w-4 bg-pr text-black" />
+                                                            <BookmarkCheck className="h-4 w-4 bg-pr" />
                                                         )}
                                                     </Button>
                                                 )}

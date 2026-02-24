@@ -58,7 +58,6 @@ export function PlaylistCard({ playlist }: { playlist: Playlist }) {
                 isDeleting ? "opacity-50 grayscale pointer-events-none" : ""
             }`}>
             <div className="relative z-10 flex flex-col gap-4">
-                {/* Header: Icon and Dropdown */}
                 <div className="flex justify-between items-center">
                     <div className="w-10 h-10 rounded-xl bg-muted border border-border flex items-center justify-center group-hover:bg-primary/10 transition-colors">
                         <ListOrdered className="w-5 h-5 text-primary" />
@@ -89,7 +88,6 @@ export function PlaylistCard({ playlist }: { playlist: Playlist }) {
                     </DropdownMenu>
                 </div>
 
-                {/* Content: Title and Description */}
                 <div className="space-y-1">
                     <h3 className="text-lg font-bold tracking-tight text-foreground line-clamp-1">
                         {playlist.name}
@@ -99,7 +97,6 @@ export function PlaylistCard({ playlist }: { playlist: Playlist }) {
                     </p>
                 </div>
 
-                {/* Footer: Stats and Action */}
                 <div className="flex items-center justify-between pt-3 border-t border-border/50">
                     <div className="flex items-center gap-2 text-muted-foreground">
                         <BookOpen className="w-3.5 h-3.5" />
