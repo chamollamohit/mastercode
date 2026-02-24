@@ -101,7 +101,6 @@ const ProblemsTable = ({ problems }: { problems: Problem[] }) => {
 
     const handleAddToPlaylist = async (playlistId: string) => {
         const res = await addToPlaylist(selectedProblemId, playlistId);
-        console.log(res);
 
         if (!res.success) {
             toast.error(res.message);
