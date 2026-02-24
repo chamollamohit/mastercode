@@ -99,17 +99,18 @@ export const createPlaylist = async (req, res) => {
 
 export const addProblemToPlaylist = async (req, res) => {
     const { playlistId } = req.params;
-    const { problemIds } = req.body;
+    const { problemId } = req.body;
 
-    if (!problemIds || !Array.isArray(problemIds) || problemIds.length === 0) {
-        return res
-            .status(400)
-            .json({ status: false, message: "Invalid or missing problemId" });
+    if (!playlistId || !problemId) {
+        return res.status(400).json({
+            status: false,
+            message: "Invalid or missing problemId or playlistId",
+        });
     }
 
     try {
         const problemsInPlaylist = await db.problemInPlaylist.createMany({
-            data: problemIds.map((problemId) => ({ playlistId, problemId })),
+            data: { playlistId, problemId },
         });
 
         return res.status(201).json({

@@ -35,6 +35,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useAuth, User } from "@/components/provider/auth-provider";
 import CreatePlaylistModal from "@/modules/playlist/components/create-playlist";
+import { addToPlaylist, createPlaylist } from "@/modules/playlist/actions";
+import { toast } from "sonner";
+import AddToPlaylistModal from "@/modules/playlist/components/add-to-playlist";
 
 interface Problem {
     id: string;
@@ -50,6 +53,9 @@ const ProblemsTable = ({ problems }: { problems: Problem[] }) => {
     const [difficulty, setDifficulty] = useState("ALL");
     const [currentPage, setCurrentPage] = useState(1);
     const [isPlaylistModalOpen, setIsPlaylistModalOpen] = useState(false);
+    const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] =
+        useState(false);
+    const [selectedProblemId, setSelectedProblemId] = useState("");
     const problemPerPage = 8;
 
     const { filteredProblems, totalPagesCount } = useMemo(() => {
@@ -82,11 +88,25 @@ const ProblemsTable = ({ problems }: { problems: Problem[] }) => {
                 return "bg-slate-500/10 text-slate-500 border-slate-500/20";
         }
     };
-    const handleCreatePlaylist = (data: {
+    const handleCreatePlaylist = async (data: {
         name: string;
         description: string;
     }) => {
-        console.log(data);
+        const res = await createPlaylist(data);
+        if (!res.success) {
+            toast.error(res.message);
+        }
+        toast.success(res.message);
+    };
+
+    const handleAddToPlaylist = async (playlistId: string) => {
+        const res = await addToPlaylist(selectedProblemId, playlistId);
+        console.log(res);
+
+        if (!res.success) {
+            toast.error(res.message);
+        }
+        toast.success(res.message);
     };
     return (
         <div className="w-full max-w-full mx-auto space-y-8 p-6 font-mont relative">
@@ -224,6 +244,14 @@ const ProblemsTable = ({ problems }: { problems: Problem[] }) => {
                                             <Button
                                                 variant="ghost"
                                                 size="icon"
+                                                onClick={() => {
+                                                    setSelectedProblemId(
+                                                        problem.id,
+                                                    );
+                                                    setIsAddToPlaylistModalOpen(
+                                                        true,
+                                                    );
+                                                }}
                                                 className="h-8 w-8 text-primary hover:bg-primary/10">
                                                 <Bookmark className="h-4 w-4" />
                                             </Button>
@@ -278,6 +306,11 @@ const ProblemsTable = ({ problems }: { problems: Problem[] }) => {
                 isOpen={isPlaylistModalOpen}
                 onClose={() => setIsPlaylistModalOpen(false)}
                 onSubmit={handleCreatePlaylist}
+            />
+            <AddToPlaylistModal
+                isOpen={isAddToPlaylistModalOpen}
+                onClose={() => setIsAddToPlaylistModalOpen(false)}
+                onSubmit={handleAddToPlaylist}
             />
         </div>
     );

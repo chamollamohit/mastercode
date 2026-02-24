@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Loader2, ListPlus, TextQuote, Type } from "lucide-react";
+import { Loader2, ListPlus } from "lucide-react";
 
 import {
     Dialog,
@@ -59,7 +59,7 @@ const CreatePlaylistModal = ({
                 <div className="from-primary/10 to-transparent pt-8 pb-6 px-8 border-b border-border/50">
                     <DialogHeader className="space-y-3">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-lg shadow-primary/20">
+                            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-primary/10 text-primary border border-primary/20">
                                 <ListPlus className="w-5 h-5" />
                             </div>
                             <div>
