@@ -74,10 +74,10 @@ const Navbar = () => {
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
                                     <Link
-                                        href="/dashboard"
+                                        href="/playlists"
                                         className="cursor-pointer">
                                         <LayoutDashboard className="mr-2 h-4 w-4" />
-                                        <span>Dashboard</span>
+                                        <span>Playlists</span>
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>

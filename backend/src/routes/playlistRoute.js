@@ -22,7 +22,7 @@ router.post("/:playlistId/add-problem", authenticate, addProblemToPlaylist);
 router.delete("/:playlistId", authenticate, deletePlaylist);
 
 router.delete(
-    "/:playlistId/remove-problem",
+    "/:playlistId/remove-problem/:problemId",
     authenticate,
     removeProblmeFromPlaylist,
 );

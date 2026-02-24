@@ -30,13 +30,15 @@ export default function PlaylistManager({
     return (
         <div className="space-y-12">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                <div className="space-y-2">
+                <div className="flex gap-4">
                     <div className="flex items-center gap-2 text-primary font-bold tracking-widest uppercase text-xs">
-                        <FolderHeart className="w-4 h-4" /> Your Collections
+                        <FolderHeart className="w-10 h-10" />
                     </div>
-                    <h1 className="text-4xl font-man font-black tracking-tight">
-                        Curated Playlists
-                    </h1>
+                    <div>
+                        <h1 className="text-4xl font-man font-black tracking-tight">
+                            Curated Playlists
+                        </h1>
+                    </div>
                 </div>
 
                 <Button

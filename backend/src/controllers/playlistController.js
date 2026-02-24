@@ -39,7 +39,11 @@ export const getPlaylistDetails = async (req, res) => {
             include: {
                 problems: {
                     include: {
-                        problem: true,
+                        problem: {
+                            include: {
+                                solvedBy: true,
+                            },
+                        },
                     },
                 },
             },
@@ -104,7 +108,7 @@ export const addProblemToPlaylist = async (req, res) => {
     if (!playlistId || !problemId) {
         return res.status(400).json({
             status: false,
-            message: "Invalid or missing problemId or playlistId",
+            message: "Missing problemId or playlistId",
         });
     }
 
@@ -157,10 +161,9 @@ export const deletePlaylist = async (req, res) => {
 };
 
 export const removeProblmeFromPlaylist = async (req, res) => {
-    const { playlistId } = req.params;
-    const { problemIds } = req.body;
+    const { playlistId, problemId } = req.params;
 
-    if (!problemIds || !Array.isArray(problemIds) || problemIds.length === 0) {
+    if (!playlistId || !problemId) {
         return res
             .status(400)
             .json({ success: false, message: "Invalid or missing problemIds" });
@@ -170,9 +173,7 @@ export const removeProblmeFromPlaylist = async (req, res) => {
         const deletedProblem = await db.problemInPlaylist.deleteMany({
             where: {
                 playlistId,
-                problemId: {
-                    in: problemIds,
-                },
+                problemId,
             },
         });
 

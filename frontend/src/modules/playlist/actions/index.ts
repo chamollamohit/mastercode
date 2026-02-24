@@ -54,3 +54,31 @@ export const deletePlaylist = async (playlistId: string) => {
         return { success: false, message: "Network  Error" }
     }
 }
+
+
+export const getPlaylistById = async (playlistId: string) => {
+    try {
+        const response = await serverApi.get(`playlist/${playlistId}`)
+        return response.data
+    } catch (error) {
+        if (axios.isAxiosError(error))
+            return error.response?.data
+
+        return { success: false, message: "Network  Error" }
+    }
+}
+
+
+
+export const removeProblemFromPlaylist = async (playlistId: string, problemId: string) => {
+    try {
+        const response = await serverApi.delete(`/playlist/${playlistId}/remove-problem/${problemId}`)
+        revalidatePath("/playlists");
+        return response.data
+    } catch (error) {
+        if (axios.isAxiosError(error))
+            return error.response?.data
+
+        return { success: false, message: "Network  Error" }
+    }
+}
