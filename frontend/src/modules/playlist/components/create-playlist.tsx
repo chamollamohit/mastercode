@@ -31,10 +31,12 @@ const CreatePlaylistModal = ({
     isOpen,
     onClose,
     onSubmit,
+    initialData,
 }: {
     isOpen: boolean;
     onClose: () => void;
     onSubmit: (data: PlaylistFormType) => void;
+    initialData?: { name: string; description: string } | null;
 }) => {
     const {
         register,
@@ -43,6 +45,10 @@ const CreatePlaylistModal = ({
         formState: { errors, isSubmitting },
     } = useForm<PlaylistFormType>({
         resolver: zodResolver(playlistSchema),
+        defaultValues: {
+            name: initialData?.name || "",
+            description: initialData?.description || "",
+        },
     });
 
     const handleFormSubmit = async (data: PlaylistFormType) => {

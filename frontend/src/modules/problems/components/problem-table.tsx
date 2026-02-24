@@ -39,7 +39,7 @@ import { addToPlaylist, createPlaylist } from "@/modules/playlist/actions";
 import { toast } from "sonner";
 import AddToPlaylistModal from "@/modules/playlist/components/add-to-playlist";
 
-interface Problem {
+export interface Problem {
     id: string;
     title: string;
     tags: string[];
