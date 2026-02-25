@@ -8,6 +8,7 @@ export interface User {
     name: string;
     role: string;
     email: string;
+    createdAt: Date;
 }
 
 interface AuthContextType {

@@ -51,7 +51,7 @@ export interface Problem {
     title: string;
     tags: string[];
     difficulty: string;
-    solvedBy: {
+    solvedBy?: {
         id: string;
         userId: string;
         problemId: string;

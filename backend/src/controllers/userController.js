@@ -8,8 +8,15 @@ export const getUserDetails = async (req, res) => {
             where: { id: userId },
             include: {
                 submissions: true,
-                solvedProblems: true,
                 playlists: true,
+                solvedProblems: {
+                    include: {
+                        problem: true,
+                    },
+                },
+            },
+            omit: {
+                password: true,
             },
         });
 
