@@ -9,6 +9,7 @@ import problemRoutes from "../src/routes/problemRoutes.js";
 import executeCodeRoutes from "../src/routes/executeCodeRoutes.js";
 import submissionRoutes from "../src/routes/submissionRoutes.js";
 import playlistRoutes from "../src/routes/playlistRoute.js";
+import userRoutes from "../src/routes/userRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -36,6 +37,7 @@ app.use("/api/v1/problem", problemRoutes);
 app.use("/api/v1/execute", executeCodeRoutes);
 app.use("/api/v1/submissions", submissionRoutes);
 app.use("/api/v1/playlist", playlistRoutes);
+app.use("/api/v1/user", userRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);
