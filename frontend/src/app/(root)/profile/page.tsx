@@ -41,6 +41,10 @@ export interface UserDetails extends User {
 export default async function ProfilePage() {
     const response = await getUserProfile();
 
+    if (!response || !response.data) {
+        return <div>Unable to load profile. Please login.</div>;
+    }
+
     const { solvedProblems, submissions, ...userData }: UserDetails =
         response.data;
 

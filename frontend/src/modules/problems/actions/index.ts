@@ -3,6 +3,7 @@
 import { serverApi } from "@/lib/axios-server"
 import axios from "axios"
 import { revalidatePath } from "next/cache"
+import { Problemdata } from "../components/create-problem-form"
 
 
 export const getAllProblems = async () => {
@@ -17,7 +18,7 @@ export const getAllProblems = async () => {
     }
 }
 
-export const createProblem = async (data) => {
+export const createProblem = async (data: Problemdata) => {
     try {
         const response = await serverApi.post('/problem/create', { ...data })
         revalidatePath('/problems')

@@ -1,8 +1,11 @@
 export const getJudge0LanguageId = (language: "PYTHON" | "JAVASCRIPT" | "JAVA") => {
-    const languageMap = {
+    const languageMap: Record<"PYTHON" | "JAVASCRIPT" | "JAVA", number> = {
         PYTHON: 71,
         JAVASCRIPT: 63,
         JAVA: 62,
     };
-    return languageMap[language.toUpperCase()];
+
+    const key = language.toUpperCase() as keyof typeof languageMap;
+
+    return languageMap[key];
 };

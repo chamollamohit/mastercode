@@ -1,5 +1,4 @@
-import { BarChart3, Target, Clock, Award, TrendingUp } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { BarChart3, Target, Clock, Award } from "lucide-react";
 import { Submissions } from "@/app/(root)/profile/page";
 
 const ProfileStats = ({

@@ -72,6 +72,35 @@ const problemSchema = z.object({
     }),
 });
 
+export interface Problemdata {
+    tags: string[];
+    constraints: string[];
+    hints: string[];
+    title: string;
+    description: string;
+    difficulty: "EASY" | "MEDIUM" | "HARD";
+    testCases: {
+        input: string;
+        output: string;
+    }[];
+    examples: {
+        input: string;
+        output: string;
+        explanation?: string | undefined;
+    }[];
+    codeSnippets: {
+        JAVASCRIPT: string;
+        PYTHON: string;
+        JAVA: string;
+    };
+    referenceSolutions: {
+        JAVASCRIPT: string;
+        PYTHON: string;
+        JAVA: string;
+    };
+    editorial?: string | undefined;
+}
+
 const CodeEditorWindow = ({
     value,
     onChange,
@@ -88,7 +117,6 @@ const CodeEditorWindow = ({
         <div className="relative rounded-2xl border border-border/50 overflow-hidden bg-background shadow-2xl transition-colors duration-300">
             <div className="flex items-center justify-between px-4 py-2 bg-muted/50 dark:bg-zinc-900/50 border-b border-border/10 dark:border-white/5">
                 <div className="flex gap-1.5">
-                    {/* Traffic lights stay colored but can be slightly desaturated in light mode if you prefer */}
                     <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
                     <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
                     <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
@@ -98,7 +126,6 @@ const CodeEditorWindow = ({
                 </span>
             </div>
 
-            {/* Editor Container: bg-background ensures the Monaco 'transparent' look works */}
             <div className="bg-background">
                 <Editor
                     height="320px"
