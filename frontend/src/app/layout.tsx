@@ -1,9 +1,9 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { Manrope, Montserrat } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/provider/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/components/provider/auth-provider";
+import { ThemeWrapper } from "@/components/provider/nextTheme";
 
 const manRope = Manrope({
     subsets: ["latin"],
@@ -37,13 +37,6 @@ export const metadata: Metadata = {
     creator: "Mohit",
 };
 
-// export const viewport: Viewport = {
-//     themeColor: [
-//         { media: "(prefers-color-scheme: light)", color: "white" },
-//         { media: "(prefers-color-scheme: dark)", color: "black" },
-//     ],
-// };
-
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -53,15 +46,19 @@ export default function RootLayout({
         <html
             lang="en"
             suppressHydrationWarning>
+            <head>
+                <script
+                    async
+                    crossOrigin="anonymous"
+                    src="https://tweakcn.com/live-preview.min.js"
+                />
+            </head>
+
             <body
                 className={`${manRope.variable} ${montSerrat.variable} font-man antialiased min-h-screen bg-background`}>
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                    disableTransitionOnChange>
+                <ThemeWrapper>
                     <AuthProvider>{children}</AuthProvider>
-                </ThemeProvider>
+                </ThemeWrapper>
                 <Toaster position="top-center" />
             </body>
         </html>

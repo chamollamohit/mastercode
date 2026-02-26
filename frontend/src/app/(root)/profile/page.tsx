@@ -7,8 +7,10 @@ import { Trophy, Activity } from "lucide-react";
 import { Playlist } from "@/modules/playlist/components/playlist-card";
 import { Problem } from "@/modules/problems/components/problem-table";
 import { User } from "@/components/provider/auth-provider";
+import { SubmissionHistory } from "@/modules/profile/components/submission-history";
 
 export interface Submissions {
+    id: string;
     userId: string;
     language: string;
     problemId: string;
@@ -16,6 +18,9 @@ export interface Submissions {
     status: "ACCEPTED" | "REJECTED";
     stdin: string;
     stdout: string;
+    memory: string;
+    time: string;
+    createdAt: Date;
 }
 
 export interface SolvedProblems {
@@ -38,6 +43,7 @@ export default async function ProfilePage() {
 
     const { solvedProblems, submissions, ...userData }: UserDetails =
         response.data;
+    console.log(solvedProblems);
 
     return (
         <div className="container mx-auto py-10 px-4 max-w-7xl space-y-8 font-man">
@@ -62,7 +68,7 @@ export default async function ProfilePage() {
                         <TabsTrigger
                             value="submissions"
                             className="rounded-xl gap-2 px-6 font-bold data-[state=active]:bg-background data-[state=active]:shadow-sm">
-                            <Activity className="w-4 h-4" /> History
+                            <Activity className="w-4 h-4" /> Submissions
                         </TabsTrigger>
                     </TabsList>
                 </div>
@@ -76,11 +82,7 @@ export default async function ProfilePage() {
                 <TabsContent
                     value="submissions"
                     className="mt-0 focus-visible:ring-0">
-                    <div className="p-12 text-center bg-card/20 rounded-[2rem] border-2 border-dashed border-border/40">
-                        <p className="text-muted-foreground font-medium">
-                            Detailed submission history coming soon.
-                        </p>
-                    </div>
+                    <SubmissionHistory submissions={submissions} />
                 </TabsContent>
             </Tabs>
         </div>

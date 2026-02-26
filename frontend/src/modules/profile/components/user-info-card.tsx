@@ -3,7 +3,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { User as UserType } from "@/components/provider/auth-provider";
-import { useMemo } from "react";
 import { formatDate } from "date-fns";
 
 const UserInfoCard = ({ userData }: { userData: UserType }) => {
