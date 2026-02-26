@@ -51,6 +51,14 @@ export interface Problem {
     title: string;
     tags: string[];
     difficulty: string;
+    description: string;
+    codeSnippets: { JAVA: string; PYTHON: string; JAVASCRIPT: string }[];
+    testCases: { input: string; output: string }[];
+    examples: { input: string; output: string; explanation: string }[];
+    constraints: string[];
+    refrencedSolutions: { JAVA: string; PYTHON: string; JAVASCRIPT: string }[];
+    editorial: string;
+    hints: string[];
     solvedBy?: {
         id: string;
         userId: string;
@@ -240,7 +248,7 @@ const ProblemsTable = ({ problems, mode = "default" }: ProblemTableProps) => {
 
                                         <TableCell>
                                             <Link
-                                                href={`/problems/${problem.id}`}
+                                                href={`/problem/${problem.id}`}
                                                 className="flex items-center gap-3 group/link">
                                                 <span className="text-[10px] font-man font-bold text-muted-foreground/30 group-hover/link:text-primary/60 transition-colors">
                                                     {String(index + 1).padStart(

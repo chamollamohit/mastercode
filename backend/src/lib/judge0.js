@@ -12,8 +12,8 @@ export const getJudge0LanguageId = (language) => {
 export const getLanguageName = (languageId) => {
     const languageNames = {
         71: "PYTHON",
-        102: "JAVASCRIPT",
-        91: "JAVA",
+        63: "JAVASCRIPT",
+        62: "JAVA",
     };
     return languageNames[languageId];
 };

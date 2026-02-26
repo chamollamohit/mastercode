@@ -38,7 +38,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     return (
         <main className="flex flex-col min-h-screen">
             <Navbar />
-            <div className="flex-1 flex flex-col px-4 pb-4 relative">
+            <div className="flex-1 flex flex-col pb-4 relative">
                 <div
                     className="absolute inset-0 -z-10 h-full w-full bg-background 
           bg-[radial-gradient(#cbd5e1_1.5px,transparent_1.5px)] 

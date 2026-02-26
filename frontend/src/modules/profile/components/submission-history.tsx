@@ -173,12 +173,6 @@ export const SubmissionHistory = ({
                                                 </p>
                                             </div>
                                         </div>
-
-                                        <div className="flex items-center gap-3 md:justify-end">
-                                            <div className="p-2 rounded-lg bg-primary/10 border border-primary/20 cursor-pointer hover:bg-primary/20 transition-colors">
-                                                <ChevronRight className="w-4 h-4 text-primary" />
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -27,7 +27,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-
+import { useNextTheme } from "@space-man/react-theme-animation";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -83,32 +83,43 @@ const CodeEditorWindow = ({
     language: string;
     label: string;
 }) => {
+    const { theme } = useNextTheme();
     return (
-        <div className="relative group rounded-2xl border border-border/50 overflow-hidden bg-zinc-950 shadow-2xl">
-            <div className="flex items-center justify-between px-4 py-2 bg-zinc-900/50 border-b border-white/5">
+        <div className="relative rounded-2xl border border-border/50 overflow-hidden bg-background shadow-2xl transition-colors duration-300">
+            <div className="flex items-center justify-between px-4 py-2 bg-muted/50 dark:bg-zinc-900/50 border-b border-border/10 dark:border-white/5">
                 <div className="flex gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/20 group-hover:bg-red-500 transition-colors" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-amber-500/20 group-hover:bg-amber-500 transition-colors" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/20 group-hover:bg-emerald-500 transition-colors" />
+                    {/* Traffic lights stay colored but can be slightly desaturated in light mode if you prefer */}
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
                 </div>
                 <span className="text-[10px] font-black uppercase tracking-widest text-primary italic">
                     {label} — {language}
                 </span>
             </div>
-            <Editor
-                height="320px"
-                defaultLanguage={language}
-                theme="vs-dark"
-                value={value}
-                onChange={onChange}
-                options={{
-                    minimap: { enabled: false },
-                    fontSize: 14,
-                    padding: { top: 20 },
-                    lineNumbers: "on",
-                    fontFamily: "var(--font-mono)",
-                }}
-            />
+
+            {/* Editor Container: bg-background ensures the Monaco 'transparent' look works */}
+            <div className="bg-background">
+                <Editor
+                    height="320px"
+                    defaultLanguage={language}
+                    theme={theme === "dark" ? "vs-dark" : "light"}
+                    value={value}
+                    onChange={onChange}
+                    options={{
+                        minimap: { enabled: false },
+                        fontSize: 14,
+                        padding: { top: 20 },
+                        lineNumbers: "on",
+                        roundedSelection: false,
+                        scrollBeyondLastLine: false,
+                        automaticLayout: true,
+                        tabSize: 2,
+                        wordWrap: "on",
+                        fontFamily: "var(--font-mono)",
+                    }}
+                />
+            </div>
         </div>
     );
 };
@@ -204,7 +215,7 @@ const CreateProblemForm = () => {
 
     return (
         <div className="container mx-auto py-8 px-4 max-w-7xl">
-            <Card className="shadow-xl">
+            <Card className="shadow-xl bg-border/25">
                 <CardHeader>
                     <div className="flex justify-between items-center">
                         <CardTitle className="text-3xl flex items-center gap-3">
@@ -213,7 +224,7 @@ const CreateProblemForm = () => {
                         </CardTitle>
                         <Button
                             type="button"
-                            variant="secondary"
+                            variant="outline"
                             onClick={loadSampleData}
                             className="gap-2">
                             <Download className="w-4 h-4" /> Load Sample
@@ -583,6 +594,7 @@ const CreateProblemForm = () => {
                         <div className="flex justify-end">
                             <Button
                                 type="submit"
+                                variant={"default"}
                                 size="lg"
                                 disabled={isLoading}
                                 className="gap-2 h-14 px-8 text-lg font-bold">
