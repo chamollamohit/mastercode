@@ -43,7 +43,6 @@ export default async function ProfilePage() {
 
     const { solvedProblems, submissions, ...userData }: UserDetails =
         response.data;
-    console.log(solvedProblems);
 
     return (
         <div className="container mx-auto py-10 px-4 max-w-7xl space-y-8 font-man">
