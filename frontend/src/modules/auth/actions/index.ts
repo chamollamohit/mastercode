@@ -29,7 +29,7 @@ export const login = async (data: { email: string, password: string }) => {
                 });
             })
         }
-
+        revalidatePath('/', 'layout')
         return response.data
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -60,7 +60,7 @@ export const register = async (data: { email: string, name: string, password: st
             })
 
         }
-
+        revalidatePath('/', 'layout')
         return response.data
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -76,6 +76,7 @@ export const currentUser = async () => {
 
     try {
         const response = await serverApi.get("/auth/authUser");
+        revalidatePath('/')
         return response.data.success ? response.data.data : null;
 
     } catch (error) {
