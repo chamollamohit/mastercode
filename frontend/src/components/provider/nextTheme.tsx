@@ -8,7 +8,7 @@ export function ThemeWrapper({ children }: { children: React.ReactNode }) {
     return (
         <NextThemeProvider
             animationType={ThemeAnimationType.CIRCLE}
-            defaultTheme="system"
+            defaultTheme="light"
             defaultColorTheme="default"
             colorThemes={["dark", "light"]}>
             {children}
