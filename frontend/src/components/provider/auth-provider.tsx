@@ -1,7 +1,7 @@
 "use client";
 
-import { api } from "@/lib/axios-client";
-import { createContext, useContext, useEffect, useState } from "react";
+import { currentUser } from "@/modules/auth/actions";
+import { createContext, useCallback, useContext, useState } from "react";
 
 export interface User {
     id: string;
@@ -14,7 +14,6 @@ export interface User {
 interface AuthContextType {
     user: User | null;
     setUser: (user: User | null) => void;
-    isCheckingAuth: boolean;
     checkAuth: () => Promise<void>;
 }
 
@@ -30,26 +29,15 @@ export function AuthProvider({
     initialUser: User | null;
 }) {
     const [user, setUser] = useState<User | null>(initialUser);
-    const [isCheckingAuth, setIsCheckingAuth] = useState(!initialUser);
+    // const [isCheckingAuth, setIsCheckingAuth] = useState(!initialUser);
 
-    const checkAuth = async () => {
-        try {
-            const res = await api.get("/auth/authUser");
-            setUser(res.data.data);
-        } catch (error) {
-            setUser(null);
-        } finally {
-            setIsCheckingAuth(false);
-        }
-    };
-
-    useEffect(() => {
-        if (!initialUser) checkAuth();
-    }, [initialUser]);
+    const checkAuth = useCallback(async () => {
+        const data = await currentUser();
+        setUser(data);
+    }, []);
 
     return (
-        <AuthContext.Provider
-            value={{ user, setUser, isCheckingAuth, checkAuth }}>
+        <AuthContext.Provider value={{ user, setUser, checkAuth }}>
             {children}
         </AuthContext.Provider>
     );

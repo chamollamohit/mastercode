@@ -52,9 +52,9 @@ const RegisterPage = () => {
         if (!result.success) {
             toast.error(result.message);
         }
-
         toast.success(result.message);
         await checkAuth();
+        router.refresh();
         router.push("/");
     };
     return (

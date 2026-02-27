@@ -52,6 +52,7 @@ const LoginPage = () => {
         }
         toast.success(result.message);
         await checkAuth();
+        router.refresh();
         router.push("/");
     };
 
