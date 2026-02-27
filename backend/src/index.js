@@ -14,12 +14,16 @@ import userRoutes from "../src/routes/userRoutes.js";
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+app.set("trust proxy", 1);
 app.use(
     cors({
         origin: process.env.FRONT_END_URL,
         credentials: true,
+        allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     }),
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
