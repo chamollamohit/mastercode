@@ -17,16 +17,22 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { api } from "@/lib/axios-client";
 import { useRouter, usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { logout } from "@/modules/auth/actions";
 
 const Navbar = () => {
     const router = useRouter();
     const pathname = usePathname();
-    const { user, checkAuth } = useAuth();
+    const { user, checkAuth, setUser } = useAuth();
 
     const onLogout = async () => {
         await api.post("/auth/logout");
         await checkAuth();
-        router.push("/");
+        const result = await logout();
+        if (result.success) {
+            setUser(null);
+            router.refresh();
+            router.push("/");
+        }
     };
 
     const navLinks = [

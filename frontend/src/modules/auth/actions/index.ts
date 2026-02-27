@@ -2,6 +2,7 @@
 
 import { serverApi } from "@/lib/axios-server"
 import axios from "axios";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import setCookie from 'set-cookie-parser'
 
@@ -82,3 +83,15 @@ export const currentUser = async () => {
     }
 
 }
+
+export const logout = async () => {
+    try {
+        const cookieStore = await cookies();
+        cookieStore.delete("JWT");
+        revalidatePath("/", "layout");
+
+        return { success: true };
+    } catch (error) {
+        return { success: false };
+    }
+};
