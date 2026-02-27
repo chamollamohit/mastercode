@@ -76,9 +76,7 @@ export const currentUser = async () => {
 
     try {
         const response = await serverApi.get("/auth/authUser");
-        revalidatePath('/')
         return response.data.success ? response.data.data : null;
-
     } catch (error) {
         return null;
     }
