@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/components/provider/auth-provider";
 import { ThemeWrapper } from "@/components/provider/nextTheme";
+import { currentUser } from "@/modules/auth/actions";
 
 const manRope = Manrope({
     subsets: ["latin"],
@@ -37,11 +38,13 @@ export const metadata: Metadata = {
     creator: "Mohit",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const user = await currentUser();
+
     return (
         <html
             lang="en"
@@ -57,7 +60,7 @@ export default function RootLayout({
             <body
                 className={`${manRope.variable} ${montSerrat.variable} font-man antialiased min-h-screen bg-background`}>
                 <ThemeWrapper>
-                    <AuthProvider>{children}</AuthProvider>
+                    <AuthProvider initialUser={user}>{children}</AuthProvider>
                 </ThemeWrapper>
                 <Toaster position="top-center" />
             </body>

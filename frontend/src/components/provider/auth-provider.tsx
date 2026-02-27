@@ -22,9 +22,15 @@ export const AuthContext = createContext<AuthContextType | undefined>(
     undefined,
 );
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [user, setUser] = useState<User | null>(null);
-    const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+export function AuthProvider({
+    children,
+    initialUser,
+}: {
+    children: React.ReactNode;
+    initialUser: User | null;
+}) {
+    const [user, setUser] = useState<User | null>(initialUser);
+    const [isCheckingAuth, setIsCheckingAuth] = useState(!initialUser);
 
     const checkAuth = async () => {
         try {
@@ -38,8 +44,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     useEffect(() => {
-        checkAuth();
-    }, []);
+        if (!initialUser) checkAuth();
+    }, [initialUser]);
 
     return (
         <AuthContext.Provider

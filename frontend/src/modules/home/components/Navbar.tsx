@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 const Navbar = () => {
     const router = useRouter();
     const pathname = usePathname();
-    const { user, isCheckingAuth, checkAuth } = useAuth();
+    const { user, checkAuth } = useAuth();
 
     const onLogout = async () => {
         await api.post("/auth/logout");
@@ -69,9 +69,7 @@ const Navbar = () => {
                     <div className="flex items-center gap-4">
                         <ThemeToggle />
 
-                        {isCheckingAuth ? (
-                            <div className="h-10 w-10 bg-muted animate-pulse rounded-full" />
-                        ) : user ? (
+                        {user ? (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button

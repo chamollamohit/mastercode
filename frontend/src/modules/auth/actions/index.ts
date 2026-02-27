@@ -69,3 +69,16 @@ export const register = async (data: { email: string, name: string, password: st
     }
 
 }
+
+
+export const currentUser = async () => {
+
+    try {
+        const response = await serverApi.get("/auth/authUser");
+        return response.data.success ? response.data.data : null;
+
+    } catch (error) {
+        return null;
+    }
+
+}
