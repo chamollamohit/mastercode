@@ -4,6 +4,7 @@ import {
     pollBatchResults,
     submitBatch,
 } from "../lib/judge0.js";
+import redis from "../lib/redis.js";
 
 export const createProblem = async (req, res) => {
     const {
@@ -93,6 +94,8 @@ export const createProblem = async (req, res) => {
             },
         });
 
+        await redis.del("problems:all");
+
         return res.status(200).json({
             success: true,
             message: "Problem created successfully",
@@ -108,6 +111,17 @@ export const createProblem = async (req, res) => {
 
 export const getAllProblems = async (req, res) => {
     try {
+        const cachedProblems = await redis.get("problems:all");
+
+        if (cachedProblems) {
+            const parsedProblems = JSON.parse(cachedProblems);
+            return res.status(200).json({
+                success: true,
+                data: parsedProblems,
+                message: "All problems fetched",
+            });
+        }
+
         const problems = await db.problem.findMany({
             include: {
                 solvedBy: true,
@@ -115,10 +129,14 @@ export const getAllProblems = async (req, res) => {
         });
 
         if (problems.length === 0) {
-            return res
-                .status(200)
-                .json({ success: true, message: "No problems to show" });
+            return res.status(200).json({
+                success: true,
+                data: [],
+                message: "No problems to show",
+            });
         }
+        const problemsString = JSON.stringify(problems);
+        await redis.set("problems:all", problemsString, "EX", 3600);
 
         return res.status(200).json({
             success: true,
@@ -180,6 +198,8 @@ export const updateProblem = async (req, res) => {
                 .json({ success: false, message: "Unable to update Problem" });
         }
 
+        await redis.del("problems:all");
+
         return res.status(200).json({
             success: true,
             data: updatedProblem,
@@ -208,6 +228,8 @@ export const deleteProblem = async (req, res) => {
                 .status(404)
                 .json({ success: false, message: "Unable to delete Problem" });
         }
+
+        await redis.del("problems:all");
 
         return res.status(200).json({
             success: true,
