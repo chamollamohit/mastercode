@@ -45,6 +45,7 @@ import {
 import { toast } from "sonner";
 import AddToPlaylistModal from "@/modules/playlist/components/add-to-playlist";
 import { useParams, useRouter } from "next/navigation";
+import { deleteProblemById } from "../actions";
 
 export interface Problem {
     id: string;
@@ -142,6 +143,20 @@ const ProblemsTable = ({ problems, mode = "default" }: ProblemTableProps) => {
             playlistId as string,
             problemId,
         );
+
+        if (res.success) {
+            toast.success(res.message);
+            setDeletingId(null);
+        } else {
+            toast.error(res.message);
+            setDeletingId(null);
+        }
+    };
+
+    const deleteProblem = async (problemId: string) => {
+        setDeletingId(problemId);
+        const res = await deleteProblemById(problemId);
+        console.log(res);
 
         if (res.success) {
             toast.success(res.message);
@@ -290,8 +305,22 @@ const ProblemsTable = ({ problems, mode = "default" }: ProblemTableProps) => {
                                                     <Button
                                                         variant="ghost"
                                                         size="icon"
-                                                        className="h-8 w-8 text-destructive/60 hover:text-destructive hover:bg-destructive/10">
-                                                        <TrashIcon className="h-4 w-4" />
+                                                        className="h-8 w-8 text-destructive/60 hover:text-destructive hover:bg-destructive/10"
+                                                        disabled={
+                                                            deletingId ===
+                                                            problem.id
+                                                        }
+                                                        onClick={() =>
+                                                            deleteProblem(
+                                                                problem.id,
+                                                            )
+                                                        }>
+                                                        {deletingId ===
+                                                        problem.id ? (
+                                                            <Loader2 className="h-4 w-4 bg-pr text-black animate-spin" />
+                                                        ) : (
+                                                            <TrashIcon className="h-4 w-4" />
+                                                        )}
                                                     </Button>
                                                 )}
                                                 {mode === "default" ? (

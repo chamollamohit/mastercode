@@ -114,12 +114,12 @@ export const getAllProblems = async (req, res) => {
         const cachedProblems = await redis.get("problems:all");
 
         if (cachedProblems) {
-            res.setHeader("Content-Type", "application/json");
-            return res.status(200).send(`{
-                "success": true,
-                "data": ${cachedProblems},
-                "message": "All problems fetched",
-            }`);
+            const parsedProblems = JSON.parse(cachedProblems);
+            return res.status(200).json({
+                success: true,
+                data: parsedProblems,
+                message: "All problems fetched",
+            });
         }
 
         const problems = await db.problem.findMany({

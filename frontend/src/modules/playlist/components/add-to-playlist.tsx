@@ -32,6 +32,7 @@ const AddToPlaylistModal = ({
     const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isFetching, setIsFetching] = useState(false);
+    const [selectedPlaylistId, setSelectedPlaylistId] = useState("");
 
     useEffect(() => {
         const loadPlaylists = async () => {
@@ -93,9 +94,10 @@ const AddToPlaylistModal = ({
                                 {playlists.map((playlist) => (
                                     <button
                                         key={playlist.id}
-                                        onClick={() =>
-                                            handleAddToPlaylist(playlist.id)
-                                        }
+                                        onClick={() => {
+                                            setSelectedPlaylistId(playlist.id);
+                                            handleAddToPlaylist(playlist.id);
+                                        }}
                                         disabled={!!isLoading}
                                         className="flex items-center justify-between p-4 rounded-2xl border border-border/50 bg-muted/20 hover:bg-primary/5 hover:border-primary/30 transition-all group text-left">
                                         <div className="space-y-1">
@@ -108,7 +110,9 @@ const AddToPlaylistModal = ({
                                             </p>
                                         </div>
                                         <div className="flex items-center justify-center w-8 h-8 rounded-full bg-background border group-hover:border-primary/50 transition-all">
-                                            {isLoading ? (
+                                            {isLoading &&
+                                            selectedPlaylistId ===
+                                                playlist.id ? (
                                                 <Loader2 className="h-4 w-4 animate-spin text-primary" />
                                             ) : (
                                                 <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />

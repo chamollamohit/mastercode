@@ -43,6 +43,20 @@ export const getProblemById = async (problemId: string) => {
     }
 }
 
+export const deleteProblemById = async (problemId: string) => {
+    try {
+        const respone = await serverApi.delete(`/problem/delete-problem/${problemId}`)
+        revalidatePath('/problems')
+        return respone.data
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            return error.response?.data
+        }
+        return { success: false, message: "Network Error" }
+
+    }
+}
+
 export const executeCode = async ({ code,
     language_id,
     stdin,

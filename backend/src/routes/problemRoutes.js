@@ -18,6 +18,6 @@ router.get("/get-problem/:id", authenticate, getProblemById);
 
 router.post("/update-problem/:id", authenticate, checkAdmin, updateProblem);
 
-router.post("/delete-problem/:id", authenticate, checkAdmin, deleteProblem);
+router.delete("/delete-problem/:id", authenticate, checkAdmin, deleteProblem);
 
 export default router;
